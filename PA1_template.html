@@ -198,10 +198,8 @@ wkAvgs$interval &lt;- dimnames(wkAvgs)[[1]]
 wkAvgs &lt;- wkAvgs %&gt;%
   melt(id = &quot;interval&quot;, value.name = &quot;steps&quot;)
 names(wkAvgs)[2] &lt;- &quot;weekday&quot;
-wkAvgs$interval &lt;- as.numeric(wkAvgs$interval)
-
-
-g &lt;- ggplot(wkAvgs, aes(interval,steps))
+wkAvgs$interval &lt;- as.numeric(wkAvgs$interval)</code></pre>
+<pre class="r"><code>g &lt;- ggplot(wkAvgs, aes(interval,steps))
 g + geom_line() +
   facet_grid(. ~ weekday) +
   labs(x = &quot;5-Minute Interval&quot;,

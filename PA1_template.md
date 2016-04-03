@@ -51,6 +51,7 @@ hist(daySteps,
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)
 
+
 ```r
 mean(daySteps)
 ```
@@ -74,7 +75,7 @@ intervals <- with(data2, tapply(steps, interval, mean))
 plot(names(intervals),intervals,type = "l")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)
 
 ```r
 intervals[intervals == max(intervals)]
@@ -119,7 +120,7 @@ hist(dayStepsIm,
      main = "Daily Steps Taken, Using Imputed Values")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)
 
 
 ```r
@@ -154,8 +155,10 @@ wkAvgs <- wkAvgs %>%
   melt(id = "interval", value.name = "steps")
 names(wkAvgs)[2] <- "weekday"
 wkAvgs$interval <- as.numeric(wkAvgs$interval)
+```
 
 
+```r
 g <- ggplot(wkAvgs, aes(interval,steps))
 g + geom_line() +
   facet_grid(. ~ weekday) +
@@ -164,7 +167,7 @@ g + geom_line() +
        title = "Daily Average Step Count")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)
 
 Weekend step activity seems somewhat higher with the glaring exception of weekday rush hour.
 

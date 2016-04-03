@@ -16,36 +16,39 @@ library(reshape2)
 ```
 
 ### Read and process data.
-```{r}
+```{r, echo = TRUE}
 data <- read.csv("activity.csv")
 data$date <- as.Date(data$date)
 data2 <- na.omit(data)
 ```
 
 ## Calculate and plot total steps per day.
-```{r}
+```{r, echo = TRUE}
 daySteps <- with(data2, tapply(steps, date, sum))
 hist(daySteps,
      breaks = 10,
      xlab = "Steps",
      main = "Daily Steps Taken")
+```
+
+```{r, echo = TRUE}
 mean(daySteps)
 median(daySteps)
 ```
 
 ## Investigate average daily activity patterns.
-```{r}
+```{r, echo = TRUE}
 intervals <- with(data2, tapply(steps, interval, mean))
 plot(names(intervals),intervals,type = "l")
 intervals[intervals == max(intervals)]
 ```
 
 ## Imput missing values.
-```{r}
+```{r, echo = TRUE}
 sum(is.na(data))
 ```
 
-```{r}
+```{r, echo = TRUE}
 int_df <- as.data.frame(intervals)
 names(int_df) <- "ave_steps"
 int_df$interval <- as.integer(dimnames(int_df)[[1]])
@@ -61,13 +64,13 @@ hist(dayStepsIm,
      main = "Daily Steps Taken, Using Imputed Values")
 ```
 
-```{r}
+```{r, echo = TRUE}
 mean(dayStepsIm)
 median(dayStepsIm)
 ```
 
 ## Weekdays vs weekends.
-```{r}
+```{r, echo = TRUE}
 weekdays <- weekdays(imputed$date)
 weekdays <- ifelse(weekdays %in% c("Saturday","Sunday"),
                    "Weekend",
@@ -81,8 +84,9 @@ wkAvgs <- wkAvgs %>%
   melt(id = "interval", value.name = "steps")
 names(wkAvgs)[2] <- "weekday"
 wkAvgs$interval <- as.numeric(wkAvgs$interval)
+```
 
-
+```{r, echo = TRUE}
 g <- ggplot(wkAvgs, aes(interval,steps))
 g + geom_line() +
   facet_grid(. ~ weekday) +
