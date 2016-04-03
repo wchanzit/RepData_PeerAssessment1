@@ -1,56 +1,114 @@
----
-title: "PA1_template"
-author: "Warren Chanzit"
-date: "April 3, 2016"
-output: 
-  html_document: 
-    keep_md: yes
----
+# PA1_template
+Warren Chanzit  
+April 3, 2016  
 
 ## Pre-Analysis set-up.
 ### Import packages and set working directory.
-```{r, results = 'hide'}
+
+```r
 library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 library(ggplot2)
 library(reshape2)
 ```
 
 ### Read and process data.
-```{r}
+
+```r
 data <- read.csv("activity.csv")
 data$date <- as.Date(data$date)
 data2 <- na.omit(data)
 ```
 
 ## Calculate and plot total steps per day.
-```{r}
+
+```r
 daySteps <- with(data2, tapply(steps, date, sum))
 hist(daySteps,
      breaks = 10,
      xlab = "Steps",
      main = "Daily Steps Taken")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)
+
+```r
 mean(daySteps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(daySteps)
 ```
 
+```
+## [1] 10765
+```
+
 ## Investigate average daily activity patterns.
-```{r}
+
+```r
 intervals <- with(data2, tapply(steps, interval, mean))
 plot(names(intervals),intervals,type = "l")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)
+
+```r
 intervals[intervals == max(intervals)]
 ```
 
+```
+##      835 
+## 206.1698
+```
+
 ## Imput missing values.
-```{r}
+
+```r
 sum(is.na(data))
 ```
 
-```{r}
+```
+## [1] 2304
+```
+
+
+```r
 int_df <- as.data.frame(intervals)
 names(int_df) <- "ave_steps"
 int_df$interval <- as.integer(dimnames(int_df)[[1]])
 
 imputed <- inner_join(data, int_df)
+```
+
+```
+## Joining by: "interval"
+```
+
+```r
 nas <- is.na(imputed$steps)
 imputed$steps[nas] <- imputed$ave_steps[nas]
 
@@ -61,13 +119,28 @@ hist(dayStepsIm,
      main = "Daily Steps Taken, Using Imputed Values")
 ```
 
-```{r}
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)
+
+
+```r
 mean(dayStepsIm)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(dayStepsIm)
 ```
 
+```
+## [1] 10766.19
+```
+
 ## Weekdays vs weekends.
-```{r}
+
+```r
 weekdays <- weekdays(imputed$date)
 weekdays <- ifelse(weekdays %in% c("Saturday","Sunday"),
                    "Weekend",
@@ -90,6 +163,8 @@ g + geom_line() +
        y = "Steps",
        title = "Daily Average Step Count")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)
 
 Weekend step activity seems somewhat higher with the glaring exception of weekday rush hour.
 
