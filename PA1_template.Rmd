@@ -9,7 +9,7 @@ output:
 
 ## Pre-Analysis set-up.
 ### Import packages and set working directory.
-```{r, results = 'hide'}
+```{r}
 library(dplyr)
 library(ggplot2)
 library(reshape2)
