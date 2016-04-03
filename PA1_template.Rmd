@@ -9,14 +9,14 @@ output:
 
 ## Pre-Analysis set-up.
 ### Import packages and set working directory.
-```{r}
+```{r, message = FALSE}
 library(dplyr)
 library(ggplot2)
 library(reshape2)
 ```
 
 ### Read and process data.
-```{r, echo = TRUE, results = "markup"}
+```{r, echo = TRUE, results = "asis"}
 data <- read.csv("activity.csv")
 data$date <- as.Date(data$date)
 data2 <- na.omit(data)
