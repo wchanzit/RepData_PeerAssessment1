@@ -16,7 +16,7 @@ library(reshape2)
 ```
 
 ### Read and process data.
-```{r, echo = TRUE, results = 'asis'}
+```{r, echo = TRUE, results = "markup"}
 data <- read.csv("activity.csv")
 data$date <- as.Date(data$date)
 data2 <- na.omit(data)
